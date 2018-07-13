@@ -1,9 +1,9 @@
 import { writeFile } from 'fs';
 import { resolve } from 'path';
 
-const PLUGIN_NAME = 'bundle-webpack-plugin';
+const PLUGIN_NAME = 'entries-webpack-plugin';
 
-export default class DumpWebpackPlugin {
+module.exports = class EntriesWebpackPlugin {
   constructor(options) {
     this.filename = options && options.filename || 'entries.json';
     this.pretty = options && options.pretty;
@@ -26,5 +26,5 @@ export default class DumpWebpackPlugin {
       writeFile(dumpFilename, JSON.stringify(entries, null, this.pretty ? '  ' : null), cb);
     });
   }
-}
+};
 

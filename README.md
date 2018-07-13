@@ -62,7 +62,7 @@ so output is
 ```
 ## License
 License [The MIT License](http://opensource.org/licenses/MIT)
-Copyright (c) 2017-2018 Ivan Zakharchanka
+Copyright (c) 2018 Ivan Zakharchanka
 
 [downloads-image]: https://img.shields.io/npm/dm/entries-webpack-plugin.svg?longCache=true&style=for-the-badge
 [npm-url]: https://www.npmjs.com/package/entries-webpack-plugin
