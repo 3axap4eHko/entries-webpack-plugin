@@ -17,6 +17,16 @@ To get all chunks for a entry you can use `entries-webpack-plugin`
 
 webpack config
 ```js
+
+function extraAssetMiddelware(compilation, entries, cb) {
+  entries.extra = {
+    css: [`extra-asset.${compilation.hash}.css`],
+  };
+  cb(entries);
+}
+
+// ...
+
 {
   // ...
   entry: {
@@ -31,6 +41,9 @@ webpack config
     new EntriesPlugin({
       filename: 'entries.json',
       pretty: true,
+      middlewares: [
+        extraAssetMiddelware,
+      ]
     }),
   ]
 }
@@ -56,6 +69,11 @@ so output is
     ],
     "css": [
       "vendors~index~about.c025d01e7caee3789803.css"
+    ]
+  },
+  "extra": {
+    "css": [
+      "extra-asset.025d01e7caee3789803.css"
     ]
   }
 }
