@@ -4,6 +4,10 @@ import { resolve } from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import EntriesPlugin from '../index';
 
+function injectionMidleware(entrypoints, cb) {
+  cb({ ...entrypoints, test: 1 });
+}
+
 const compiler = webpack({
   mode: 'development',
   entry: {
@@ -45,6 +49,9 @@ const compiler = webpack({
     new EntriesPlugin({
       filename: 'entries.json',
       pretty: true,
+      middlewares: [
+        injectionMidleware,
+      ],
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash].css',
@@ -58,8 +65,18 @@ it('test', done => {
   compiler.run((error, stats) => {
     expect(error).toEqual(null);
     expect(stats.compilation.errors).toHaveLength(0);
+
     const { outputPath } = stats.toJson();
-    const entries = JSON.parse(readFileSync(`${outputPath}/entries.js`, 'utf8'));
+    const entries = JSON.parse(readFileSync(`${outputPath}/entries.json`, 'utf8'));
+
+    expect(entries).toHaveProperty('index');
+    expect(entries.index).toHaveProperty('js');
+    expect(entries.index).toHaveProperty('css');
+    expect(entries).toHaveProperty('about');
+    expect(entries.about).toHaveProperty('js');
+    expect(entries.about).toHaveProperty('css');
+    expect(entries).toHaveProperty('test');
+
     done();
   });
 });
