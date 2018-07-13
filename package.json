@@ -1,6 +1,6 @@
 {
   "name": "entries-webpack-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Outputs webpack assets chunks for entries to a json file",
   "main": "index.js",
   "scripts": {
