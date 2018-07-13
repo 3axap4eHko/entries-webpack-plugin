@@ -1,16 +1,18 @@
+import { readFileSync } from 'fs';
 import webpack from 'webpack';
 import { resolve } from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import EntriesPlugin from '../index';
 
 const compiler = webpack({
+  mode: 'development',
   entry: {
     index: `${__dirname}/../__fixtures__/index.js`,
     about: `${__dirname}/../__fixtures__/about.js`,
   },
   output: {
     path: resolve(process.cwd(), '.tmp'),
-    filename: 'js/[name].js',
+    filename: 'js/[name].[hash].js',
   },
   module: {
     rules: [
@@ -56,7 +58,8 @@ it('test', done => {
   compiler.run((error, stats) => {
     expect(error).toEqual(null);
     expect(stats.compilation.errors).toHaveLength(0);
-
+    const { outputPath } = stats.toJson();
+    const entries = JSON.parse(readFileSync(`${outputPath}/entries.js`, 'utf8'));
     done();
   });
 });

@@ -1,6 +1,3 @@
-import { writeFile } from 'fs';
-import { resolve } from 'path';
-
 const PLUGIN_NAME = 'entries-webpack-plugin';
 
 module.exports = class EntriesWebpackPlugin {
@@ -12,10 +9,9 @@ module.exports = class EntriesWebpackPlugin {
   apply(compiler) {
     const entries = {};
 
-    compiler.hooks.afterEmit.tapAsync(PLUGIN_NAME, (compilation, cb) => {
-      const { outputPath, entrypoints } = compilation.getStats().toJson();
+    compiler.hooks.emit.tap(PLUGIN_NAME, (compilation) => {
+      const { entrypoints } = compilation.getStats().toJson();
 
-      const dumpFilename = resolve(outputPath, this.filename);
       Object.entries(entrypoints).forEach(([entry, { assets }]) => {
         entries[entry] = {
           js: assets.filter(filename => /\.js$/.test(filename)),
@@ -23,7 +19,12 @@ module.exports = class EntriesWebpackPlugin {
         };
       });
 
-      writeFile(dumpFilename, JSON.stringify(entries, null, this.pretty ? '  ' : null), cb);
+      const json = JSON.stringify(entries, null, this.pretty ? '  ' : null);
+
+      compilation.assets[this.filename] = {
+        source: () => json,
+        size: () => json.length,
+      };
     });
   }
 };
