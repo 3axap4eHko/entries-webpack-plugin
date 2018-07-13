@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import EntriesPlugin from '../index';
 
-function injectionMidleware(entrypoints, cb) {
+function injectionMidleware(compilation, entrypoints, cb) {
   cb({ ...entrypoints, test: 1 });
 }
 

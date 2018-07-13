@@ -3,13 +3,13 @@ import { resolve } from 'path';
 
 const PLUGIN_NAME = 'entries-webpack-plugin';
 
-function iterate(middlewares, entrypoints, cb) {
+function iterate(middlewares, compilation, entries, cb) {
   if (middlewares.length) {
     const middleware = middlewares.shift();
-    const promise = new Promise(resolve => middleware(entrypoints, resolve));
-    promise.then(result => iterate(middlewares, result, cb));
+    const promise = new Promise(resolve => middleware(compilation, entries, resolve));
+    promise.then(result => iterate(middlewares, compilation, result, cb));
   } else {
-    cb(entrypoints);
+    cb(entries);
   }
 }
 
@@ -33,7 +33,7 @@ module.exports = class EntriesWebpackPlugin {
         };
       });
 
-      iterate([...this.middlewares], entries, (result) => {
+      iterate([...this.middlewares], compilation, entries, (result) => {
         const filename = resolve(outputPath, this.filename);
         const json = JSON.stringify(result, null, this.pretty ? '  ' : null);
         writeFile(filename, json, cb);
