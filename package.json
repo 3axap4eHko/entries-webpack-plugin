@@ -1,0 +1,37 @@
+{
+  "name": "entries-webpack-plugin",
+  "version": "0.1.0",
+  "description": "Outputs webpack assets chunks for entries to a json file",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf *.js && babel src --out-dir . --ignore __tests__,__fixtures__",
+    "test": "rm -rf .tmp && jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3axap4eHko/dump-webpack-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "asset",
+    "assets",
+    "dump",
+    "manifest"
+  ],
+  "author": "Ivan Zakharchanka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/3axap4eHko/dump-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/3axap4eHko/dump-webpack-plugin#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^23.4.0",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^1.0.0",
+    "jest": "^23.4.1",
+    "mini-css-extract-plugin": "^0.4.1",
+    "webpack": "^4.16.0"
+  }
+}
