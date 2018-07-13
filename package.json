@@ -18,6 +18,10 @@
     "dump",
     "manifest"
   ],
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
+  },
   "author": "Ivan Zakharchanka",
   "license": "MIT",
   "bugs": {
