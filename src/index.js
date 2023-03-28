@@ -30,8 +30,7 @@ module.exports = class EntriesWebpackPlugin {
         entries[entry] = assets.reduce((accumulator, { name }) => {
           if (/\.js$/.test(name)) {
             accumulator.js.push(name);
-          }
-          if (/\.css$/.test(name)) {
+          } else if (/\.css$/.test(name)) {
             accumulator.css.push(name);
           }
           return accumulator;
