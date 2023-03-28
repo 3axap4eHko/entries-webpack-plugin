@@ -27,10 +27,15 @@ module.exports = class EntriesWebpackPlugin {
       const { outputPath, entrypoints } = compilation.getStats().toJson();
 
       Object.entries(entrypoints).forEach(([entry, { assets }]) => {
-        entries[entry] = {
-          js: assets.filter(filename => /\.js$/.test(filename)),
-          css: assets.filter(filename => /\.css$/.test(filename)),
-        };
+        entries[entry] = assets.reduce((accumulator, { name }) => {
+          if (/\.js$/.test(name)) {
+            accumulator.js.push(name);
+          }
+          if (/\.css$/.test(name)) {
+            accumulator.css.push(name);
+          }
+          return accumulator;
+        }, { js: [], css: [] });
       });
 
       iterate([...this.middlewares], compilation, entries, (result) => {
